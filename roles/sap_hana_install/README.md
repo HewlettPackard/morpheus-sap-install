@@ -459,6 +459,13 @@ The firewall ports are defined in a variable which is compatible with the variab
 The firewall ports for SAP HANA are defined in member `port` of the first field of variable `sap_hana_install_firewall` (`sap_hana_install_firewall[0].port`), see file `defaults/main.yml`.</br>
 If the member `state` is set to `enabled`, the ports will be enabled. If the member `state` is set to `disabled`, the ports will be disabled, which might be useful for testing.</br>
 
+#### sap_hana_set_file_permissions
+- _Type:_ `bool`
+- _Default:_ `true`
+
+Set to `false` to not change the owner, group, and permissions of the files in `sap_hana_install_software_extract_directory`.
+
+
 Certain parameters have identical meanings, for supporting different naming schemes in playbooks and inventories.</br>
 You can find those in the task `Rename some variables used by hdblcm configfile` of the file `tasks/main.yml`.</br>
 Example: The parameter `sap_hana_install_number`, which is used by the role to define the hdblm parameter `number` (= SAP HANA instance number)</br>
