@@ -1,15 +1,42 @@
 # SPDX-License-Identifier: Apache-2.0
 ---
-
 # System Copy restore installation
-
 - name: SAP SWPM Pre Install - Check availability backup location - {{ sap_swpm_backup_location }}
   ansible.builtin.stat:
     path: "{{ sap_swpm_backup_location }}"
   register: sap_swpm_backup_location_stat
-  failed_when:
-    - not sap_swpm_backup_location_stat.stat.exists
-    - "'.CP' in sap_swpm_product_catalog_id | string"
+  failed_when: not sap_swpm_backup_location_stat.stat.exists and '.CP' in sap_swpm_product_catalog_id
+
+# Check if the backup directory is mounted
+- name: SAP SWPM Pre Install - Define the search for a mountpoint
+  set_fact:
+    find_mount_point_script: |
+      path="{{ sap_swpm_backup_location }}"
+      while [ "$path" != "/" ]; do
+        if mount | grep -q "on $path "; then
+          echo "$path"
+          break
+        fi
+        path=$(dirname "$path")
+      done
+
+- name: SAP SWPM Pre Install - Find the mount point for the backup location - {{ sap_swpm_backup_location }}
+  ansible.builtin.command:
+    cmd: /bin/bash -c '{{ find_mount_point_script }}'
+  register: _sap_swpm_backup_location_mount_point
+  failed_when: false  # Do not fail if no mount point is found
+  changed_when: false  # This is a check, so it should not mark the task as changed
+
+- name: SAP SWPM Pre Install - Debug the mount point
+  ansible.builtin.debug:
+    msg: >
+      The result is {{ _sap_swpm_backup_location_mount_point }}
+      The mount point for {{ sap_swpm_backup_location }} is
+      {% if _sap_swpm_backup_location_mount_point.stdout != "" %}
+      {{ _sap_swpm_backup_location_mount_point.stdout }}
+      {% else %}
+      not found.
+      {% endif %}
 
 - name: SAP SWPM Pre Install - Change ownership of backup location - {{ sap_swpm_backup_location }}
   ansible.builtin.file:
@@ -22,3 +49,4 @@
   when:
     - sap_swpm_backup_location_stat.stat.exists
     - sap_swpm_backup_location_stat.stat.isdir
+    - _sap_swpm_backup_location_mount_point.stdout == ""  # Execute only if the directory is NOT part of a mounted structure
