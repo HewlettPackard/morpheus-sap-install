@@ -28,7 +28,7 @@ sap_swpm_set_file_permissions: false
 # Product ID for New Installation
 #sap_swpm_product_catalog_id: 
 
-sap_swpm_update_etchosts: true
+sap_swpm_update_etchosts: false
 
 # Generate inifile.params using sap_swpm Ansible Role
 sap_swpm_inifile_list:
