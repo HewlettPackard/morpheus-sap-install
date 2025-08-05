@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: Apache-2.0
+---
+
+# Detect SAP HANA and SAP NetWeaver software
+#sap_install_media_detect_source_directory: ""
+sap_install_media_detect_source_directory: "{{ sap_swpm_software_path }}"
+sap_install_media_detect_source: local_dir
+sap_install_media_detect_swpm: false
+sap_install_media_detect_hostagent: false
+sap_install_media_detect_igs: false
+sap_install_media_detect_kernel: false
+sap_install_media_detect_webdisp: false
+sap_install_media_detect_db: "saphana"
+sap_swpm_set_file_permissions: false
+
+# Product ID for New Installation
+#sap_swpm_product_catalog_id:
+
+# Generate inifile.params using sap_swpm Ansible Role
+sap_swpm_inifile_list:
+  - swpm_installation_media
+  - swpm_installation_media_swpm2_hana
+  - credentials
+  - credentials_hana
+  - db_config_hana
+  - db_connection_nw_hana
+  - nw_config_other
+  - nw_config_central_services_abap
+  - nw_config_primary_application_server_instance
+  - nw_config_ports
+  - sap_os_linux_user
+
+# Passwords
+#sap_swpm_db_system_password: 
+#sap_swpm_master_password: 
+sap_swpm_db_systemdb_password: "{{ sap_swpm_db_system_password }}"
+sap_swpm_db_schema_abap_password: "{{ sap_swpm_db_system_password }}"
+sap_swpm_db_sidadm_password: "{{ sap_swpm_db_system_password }}"
+sap_swpm_ddic_000_password: "{{ sap_swpm_master_password }}"
+sap_swpm_db_schema_abap: "SAPHANADB"
+
+# Instances
+#sap_swpm_sid: 
+#sap_swpm_pas_instance_nr: 
+#sap_swpm_ascs_instance_nr: 
+sap_swpm_ascs_instance_hostname: "{{ ansible_hostname }}"
+#sap_swpm_db_host: "{{ ansible_hostname }}"
+#sap_swpm_db_sid: 
+#sap_swpm_db_instance_nr: 
+sap_swpm_fqdn: "{{ ansible_domain }}"
+
+
+# Software
+#sap_swpm_software_path:
+#sap_swpm_sapinst_path
+sap_swpm_sapcar_path:  "{{ sap_swpm_software_path }}"
+sap_swpm_swpm_path: "{{ sap_swpm_sapinst_path }}"
+sap_swpm_software_extract_directory: "{{ sap_swpm_swpm_path }}"
+
+#sap_install_media_detect_create_target_directory
+sap_swpm_update_etchosts: false
+
