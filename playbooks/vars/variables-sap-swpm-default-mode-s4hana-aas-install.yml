@@ -23,6 +23,7 @@ sap_install_media_detect_igs: true
 sap_install_media_detect_kernel: true
 sap_install_media_detect_webdisp: false
 sap_install_media_detect_db: "saphana"
+sap_swpm_set_file_permissions: false
 
 # Product ID for New Installation
 #sap_swpm_product_catalog_id: 
