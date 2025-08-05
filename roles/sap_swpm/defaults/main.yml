@@ -20,7 +20,7 @@
 #
 # Set the following parameter to false to not change the owner, group, and permissions of the files in sap_swpm_software_path.
 # The default is true.
-sap_swpm_set_file_permissions: true
+sap_swpm_set_file_permissions: false
 #
 # The following 9 parameters define the default permission and ownership settings as per the
 # Installation of SAP ABAP Systems on UNIX : SAP HANA 2.0 Database - Using Software Provisioning Manager 2.0 guide
