@@ -21,7 +21,7 @@
 ##  changed_when: "'instslana' in __sap_swpm_register_sapinst.stdout"
 
 
-### Async method
+### Async method is not working with HPE Morpheus Enterprise
 
 # now in file pre_install.yml:
 #- name: Set fact for the sapinst command line
@@ -48,41 +48,51 @@
 # Execute SAP SWPM, instead of command module use the shell module to allow use of umask according to SAP SWPM recommendations
 # Use of umask will enforce permissions 755 in /usr/sap etc (thereby resolving any shared NFS mount points initially attached with permissions 777)
 # Reason for noqa: This command installs software, so it will change things
-- name: SAP SWPM - {{ sap_swpm_swpm_installation_header }} # noqa no-changed-when
-  ansible.builtin.shell: |
-    {{ __sap_swpm_sapinst_command }}
-  register: __sap_swpm_register_sapinst_async_job
-  args:
-    chdir: "{{ sap_swpm_sapinst_path }}"
-  async: 86400 # Seconds for maximum runtime, set to 24 hours
-  poll: 0 # Seconds between polls, use 0 to run Ansible Tasks concurrently
+#- name: SAP SWPM - {{ sap_swpm_swpm_installation_header }} # noqa no-changed-when
+#  ansible.builtin.shell: |
+#    {{ __sap_swpm_sapinst_command }}
+#  register: __sap_swpm_register_sapinst_async_job
+#  args:
+#    chdir: "{{ sap_swpm_sapinst_path }}"
+#  async: 86400 # Seconds for maximum runtime, set to 24 hours
+#  poll: 0 # Seconds between polls, use 0 to run Ansible Tasks concurrently
 
 # Monitor sapinst process and wait for exit
-- name: SAP SWPM - Wait for sapinst process to exit, poll every 60 seconds
-  ansible.builtin.shell: set -o pipefail && ps -ef | awk '/\.\/sapinst /&&!/umask/&&!/ awk /{print}'
-  register: __sap_swpm_register_pids_sapinst
-  until: "__sap_swpm_register_pids_sapinst.stdout | length == 0"
-  retries: 1440
-  delay: 60
-  changed_when: false
+#- name: SAP SWPM - Wait for sapinst process to exit, poll every 60 seconds
+#  ansible.builtin.shell: set -o pipefail && ps -ef | awk '/\.\/sapinst /&&!/umask/&&!/ awk /{print}'
+#  register: __sap_swpm_register_pids_sapinst
+#  until: "__sap_swpm_register_pids_sapinst.stdout | length == 0"
+#  retries: 1440
+#  delay: 60
+#  changed_when: false
 
-- name: SAP SWPM - Verify if sapinst process finished successfully
-  ansible.builtin.async_status:
-    jid: "{{ __sap_swpm_register_sapinst_async_job.ansible_job_id }}"
-  register: __sap_swpm_register_sapinst
-  failed_when: __sap_swpm_register_sapinst.finished != 1 or __sap_swpm_register_sapinst.rc != 0
+#- name: SAP SWPM - Verify if sapinst process finished successfully
+#  ansible.builtin.async_status:
+#    jid: "{{ __sap_swpm_register_sapinst_async_job.ansible_job_id }}"
+#  register: __sap_swpm_register_sapinst
+#  failed_when: __sap_swpm_register_sapinst.finished != 1 or __sap_swpm_register_sapinst.rc != 0
 #   #until: __sap_swpm_register_sapinst.finished
 #   #retries: 1000
 #   #delay: 60
 
-- name: SAP SWPM - Display the sapinst return code
-  ansible.builtin.debug:
-    msg: "{{ __sap_swpm_register_sapinst.rc }}"
+#- name: SAP SWPM - Display the sapinst return code
+#  ansible.builtin.debug:
+#    msg: "{{ __sap_swpm_register_sapinst.rc }}"
 
-- name: SAP SWPM - Display the sapinst output
-  ansible.builtin.debug:
-    msg: "{{ __sap_swpm_register_sapinst.stdout_lines }}"
-  when: sap_swpm_display_unattended_output
+#- name: SAP SWPM - Display the sapinst output
+#  ansible.builtin.debug:
+#    msg: "{{ __sap_swpm_register_sapinst.stdout_lines }}"
+#  when: sap_swpm_display_unattended_output
+#
+# Entered for HPE Morpheus Enterprise
+#
+- name: SAP SWPM - {{ sap_swpm_swpm_installation_header }} - This step can take up to several hours # noqa no-changed-when
+  ansible.builtin.shell: |
+    {{ __sap_swpm_sapinst_command }}
+  register: __sap_swpm_register_sapinst
+  args:
+    chdir: "{{ sap_swpm_sapinst_path }}"
+
 
 - name: SAP SWPM - Find last installation location
   ansible.builtin.command: "cat {{ __sap_swpm_fact_tempdir_from_env }}/sapinst_instdir/.lastInstallationLocation"
