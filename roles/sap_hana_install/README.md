@@ -1,7 +1,7 @@
 <!-- BEGIN Title -->
 # sap_hana_install Ansible Role
 <!-- END Title -->
-![Ansible Lint for sap_hana_install](https://github.com/sap-linuxlab/community.sap_install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
+![Ansible Lint for sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
 
 ## Description
 <!-- BEGIN Description -->
@@ -75,10 +75,10 @@ Example of `sap_hana_install_software_directory` content for SAP HANA installati
 
 ### Extracted SAP HANA Software Installation Files
 This role will detect if there is a file `hdblcm` already present in the directory specified by variable
-`sap_hana_install_software_extract_directory` or in any directory below. If If found, it will skip
+`sap_hana_install_software_extract_directory` or in any directory below. If found, it will skip
 the .SAR extraction phase and proceed with the installation.
 
-The default for `sap_hana_install_software_extract_directory` is `{{ sap_hana_install_software_directory }}/extracted` but it
+The default for HPE Morpheus Enterprise deployments for `sap_hana_install_software_extract_directory` is `{{ sap_hana_install_software_directory }}`, but it
 can be set to a different directory.
 
 If this role is executed on more than one host in parallel and the software extraction directory is shared among those hosts,
@@ -146,13 +146,6 @@ of this file will not be reflected.
 <!-- END Execution -->
 
 <!-- BEGIN Execution Recommended -->
-### Recommended
-It is recommended to execute this role together with other roles in this collection, in the following order:</br>
-1. [sap_general_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_general_preconfigure)
-2. [sap_hana_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_hana_preconfigure)
-3. [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect)
-4. *`sap_hana_install`*
-<!-- END Execution Recommended -->
 
 ### Execution Flow
 <!-- BEGIN Execution Flow -->
@@ -273,40 +266,14 @@ in a temporary directory for use by the hdblcm command in the next step.
 #### Example playbook for installing a new scale-out SAP HANA system
 ```yaml
 ---
-- name: Ansible Play for SAP HANA installation - Scale-out
+- name: Ansible Play for executing SAP HANA installation to all hosts in Ansible Inventory
   hosts: all
   become: true
-  tasks:
-    - name: Execute Ansible Role sap_hana_install
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_hana_install
-      vars:
-        sap_hana_install_software_directory: /software/hana
-        sap_hana_install_common_master_password: 'NewPass$321'
-        sap_hana_install_root_password: 'NewPass$321'
-        sap_hana_install_addhosts: 'host2:role=worker,host3:role=worker:group=g02,host4:role=standby:group=g02'
-        sap_hana_install_sid: 'H01'
-        sap_hana_install_instance_nr: '00'
-```
-
-#### Example playbook for adding additional nodes to an existing SAP HANA installation
-```yaml
----
-- name: Ansible Play for SAP HANA installation - Add host
-  hosts: all
-  become: true
-  tasks:
-    - name: Execute Ansible Role sap_hana_install
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_hana_install
-      vars:
-        sap_hana_install_software_directory: /software/hana
-        sap_hana_install_new_system: no
-        sap_hana_install_addhosts: 'host2:role=worker,host3:role=worker:group=g02,host4:role=standby:group=g02'
-        sap_hana_install_common_master_password: 'NewPass$321'
-        sap_hana_install_root_password: 'NewPass$321'
-        sap_hana_install_sid: 'H01'
-        sap_hana_install_instance_nr: '00'
+  pre_tasks:
+    - name: Include variables
+      ansible.builtin.include_vars: ./vars/variables-sap-hana-install.yml
+  roles:
+    - { role: ../roles/sap_hana_install }
 ```
 <!-- END Execution Example -->
 
