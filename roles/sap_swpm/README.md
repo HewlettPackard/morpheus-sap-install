@@ -14,9 +14,9 @@ The Ansible role `sap_swpm` installs various SAP Systems installable by SAP Soft
 ## Prerequisites
 <!-- BEGIN Prerequisites -->
 Managed nodes:
-- Directory with SAP Installation media is present and `sap_swpm_software_path` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad).
-- Ensure that servers are configured for SAP Systems. See [Recommended](#recommended) section.
-- Ensure that volumes and filesystems are configured correctly. See [Recommended](#recommended) section.
+- Directory with SAP Installation media is present and `sap_swpm_software_path` updated.
+- Ensure that servers are configured for SAP Systems. 
+- Ensure that volumes and filesystems are configured correctly.
 
 ### Prepare SAP installation media
 Place a valid SAPCAR executable file in a directory specified by variable `sap_swpm_sapcar_path` (e.g. /software/sapcar). Example: `SAPCAR_1300-70007716.EXE`
@@ -34,7 +34,7 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
       - SAP Kernel DB Independent - `SAPEXE_*SAR`
       - SAP HANA Client           - `IMDB_CLIENT*SAR`
 
-Alternatively, you can place all the files mentioned above into a single directory and use the role [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect) to identify the required files and set the role variables automatically so that the role `sap_swpm` has access to all the files needed for a successful installation of SAP System.
+
 <!-- END Prerequisites -->
 
 ## Execution
@@ -43,13 +43,7 @@ Alternatively, you can place all the files mentioned above into a single directo
 
 <!-- BEGIN Execution Recommended -->
 ### Recommended
-It is recommended to execute this role together with other roles in this collection, in the following order:</br>
-1. [sap_general_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_general_preconfigure)
-2. [sap_netweaver_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_netweaver_preconfigure)
-3. [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect)
-4. *`sap_swpm`*
-
-Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
+Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
 <!-- END Execution Recommended -->
 
 ### Execution Flow
@@ -61,8 +55,6 @@ Note: For most scenarios, a database like SAP HANA must be available. Use the ro
     - The product id specified determines the installation type
         - standard installation
         - system restore
-        - generic product installation
-        - high availability installation
 
 - Get SAPCAR executable filename from `sap_swpm_sapcar_path`
 
@@ -554,6 +546,16 @@ Define prefix of SAP HANA Backup files.
 - _Type:_ `string`
 
 Define SAP HANA SYSTEM password from source database.
+
+### sap_hana_backup_rootkeys_filename
+- _Type:_ `string`
+
+Define the rootkey filename located in the backup location
+
+### sap_hana_backup_rootkeys_password
+- _Type:_ `string`
+
+Password of the System user of the source SAP HANA system
 
 
 ### Variables specific to SAP Web Dispatcher
