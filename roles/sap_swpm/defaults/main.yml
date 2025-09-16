@@ -67,8 +67,9 @@ sap_swpm_inifile_reuse_destination:
 #   for Default Mode
 #   - List of inifile parameters to generate
 ########################################
-
-sap_swpm_inifile_sections_list:
+# Define sap_swpm_inifile_list instead of sap_swpm_inifile_sections_list
+ #sap_swpm_inifile_sections_list:
+sap_swpm_inifile_list:
   - swpm_installation_media
   - swpm_installation_media_swpm2_hana
 #  - swpm_installation_media_swpm1
