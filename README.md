@@ -68,7 +68,7 @@ SAP Products:
 - SAP BW/4HANA (2021, 2023) with setup as Standard, Distributed or Restore System Copy
 - SAP HANA 2.0 (SPS04+) with setup as Scale-Up
 
-**NOTE: It is not possible to test every Operating System and SAP Product combination with every release. Testing is regularly done for common scenarios: SAP HANA, SAP S4HANA
+**NOTE: It is not possible to test every Operating System and SAP Product combination with every release. Testing is regularly done for common scenarios: SAP HANA, SAP S4HANA installation and system copy
 
 ## Contributing to the sap-linuxlab community playbooks
 You can find more information about ways you can contribute at [sap-linuxlab website](https://sap-linuxlab.github.io/initiative_contributions/).
