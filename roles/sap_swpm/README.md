@@ -43,7 +43,7 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
 
 <!-- BEGIN Execution Recommended -->
 ### Recommended
-Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
+Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
 <!-- END Execution Recommended -->
 
 ### Execution Flow
