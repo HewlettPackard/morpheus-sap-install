@@ -4,7 +4,7 @@
 ## Description
 
 This Ansible Collection executes various SAP Software installations and configuration tasks for various SAP solutions and deployment scenarios on supported Linux operating systems.
-This set of roles and playbooks was tested for the use in HPE Morpheus Enterprise.
+The roles and playbooks in this repository were tested for the use in HPE Morpheus Enterprise.
 The roles and playbooks from https://github.com/sap-linuxlab/community.sap_install were used and slightly modified. Only tested roles and playbooks are part of this repository.
 
 Included roles cover range of tasks:
@@ -46,15 +46,15 @@ For the use of the Ansible playbooks in HPE Morpheus Enterprise, a github reposi
 - Installation of SAP HANA
 - Installation of SAP S4HANA or other SAP products, including SAP system copy
 
-More deployment scenarios are available in [ansible.playbooks_for_sap](https://github.com/sap-linuxlab/ansible.playbooks_for_sap) repository. However, the integration was not tested with HPE Morpheus Enterprise.
+More deployment scenarios are available in [community.sap_install](https://github.com/sap-linuxlab/community.sap_install) repository. However, the integration was not tested with HPE Morpheus Enterprise.
 
 ### Ansible Roles
 All included roles can be executed independently.
 
 | Name | Summary |
 | :--- | :--- |
-| [sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/roles/sap_hana_install/) | Install SAP HANA via HDBLCM |
-| [sap_swpm](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/roles/sap_swpm) | Install SAP Software via SWPM |
+| [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_hana_install/) | Install SAP HANA via HDBLCM |
+| [sap_swpm](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_swpm) | Install SAP Software via SWPM |
 
 
 ## Testing
@@ -84,8 +84,8 @@ You can report any issues with this set of playbooks and roles using the [Issues
 Please follow [Ansible Precedence guidelines](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) on how to pass variables when using this collection.
 
 ### Getting Started
-More information on how to execute Ansible playbooks is in [Getting started guide](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/docs/getting_started/README.md).
+More information on how to execute Ansible playbooks is in [Getting started guide](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/docs/getting_started/README.md).
 
 
 ## License
-[Apache 2.0](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/LICENSE) 
+[Apache 2.0](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/LICENSE) 
