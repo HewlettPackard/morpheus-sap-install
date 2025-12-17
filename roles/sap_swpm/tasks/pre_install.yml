@@ -189,6 +189,48 @@
     - sap_swpm_update_etchosts
   tags: sap_swpm_update_etchosts
 
+###############
+# Make the installation repeatable 
+###############
+
+- name: SAP SWPM Pre Install - Set fact for full sapinst instdir path
+  ansible.builtin.set_fact:
+    sap_swpm_sapinst_instdir_full: "{{ sap_swpm_sapinst_instdir }}/{{ sap_swpm_product_catalog_id | replace(':', '_') }}/{{ sap_swpm_sid }}_{{ sap_swpm_ascs_instance_nr }}"
+  when: sap_swpm_sapinst_instdir | length > 0
+  tags: sap_swpm_sapinst_commandline
+
+- name: SAP SWPM Pre Install - Check for existing installation directory
+  ansible.builtin.stat:
+    path: "{{ sap_swpm_sapinst_instdir_full }}"
+  register: __sap_swpm_sapinst_instdir_stat
+  when: sap_swpm_sapinst_instdir | length > 0
+
+- name: SAP SWPM Pre Install - Check if /etc/services contains sapms{{ sap_swpm_sid | upper }}
+  ansible.builtin.lineinfile:
+    path: /etc/services
+    regexp: "^sapms{{ sap_swpm_sid | upper }}.*"
+    state: absent
+  check_mode: true
+  register: __sap_swpm_etc_services_check
+  failed_when: false
+  when: sap_swpm_sapinst_instdir | length > 0
+
+- name: SAP SWPM Pre Install - Purge installation directory if installation is repeated before execution phase
+  ansible.builtin.file:
+    state: absent
+    path: "{{ sap_swpm_sapinst_instdir_full }}"
+  when:
+    - sap_swpm_sapinst_instdir | length > 0
+    - __sap_swpm_sapinst_instdir_stat.stat.exists | default(false)
+    - not (__sap_swpm_etc_services_check is changed)
+
+- name: SAP SWPM Pre Install - Create installation directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ sap_swpm_sapinst_instdir_full }}"
+    mode: '0755'
+  when: sap_swpm_sapinst_instdir | length > 0
+
 ################
 # Display Parameters
 ################
@@ -238,7 +280,7 @@
 
 - name: Set fact for the sapinst command line
   ansible.builtin.set_fact:
-    __sap_swpm_sapinst_command: "umask {{ sap_swpm_umask | d('022') }} ; ./sapinst {{ sap_swpm_swpm_command_inifile }}
+    __sap_swpm_sapinst_command: "umask {{ sap_swpm_umask | d('022') }} ; {{ sap_swpm_sapinst_path }}/sapinst {{ sap_swpm_swpm_command_inifile }}
     {{ sap_swpm_swpm_command_product_id }}
     {{ sap_swpm_swpm_command_extra_args }}"
   tags: sap_swpm_sapinst_commandline
