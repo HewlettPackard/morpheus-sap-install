@@ -235,7 +235,7 @@
   ansible.builtin.file:
     state: directory
     path: "{{ sap_swpm_sapinst_instdir_full }}"
-    mode: '0755'
+    mode: '0775'
     group: sapinst
   when: sap_swpm_sapinst_instdir | length > 0
 
