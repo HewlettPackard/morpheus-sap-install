@@ -224,11 +224,19 @@
     - __sap_swpm_sapinst_instdir_stat.stat.exists | default(false)
     - not (__sap_swpm_etc_services_check is changed)
 
+- name: SAP SWPM Pre Install - Create sapinst group
+  ansible.builtin.group:
+    name: sapinst
+    gid: "{{ sap_swpm_sapinst_gid | default(omit) }}"
+    state: present
+  when: sap_swpm_sapinst_instdir | length > 0
+
 - name: SAP SWPM Pre Install - Create installation directory
   ansible.builtin.file:
     state: directory
     path: "{{ sap_swpm_sapinst_instdir_full }}"
     mode: '0755'
+    group: sapinst
   when: sap_swpm_sapinst_instdir | length > 0
 
 ################
@@ -259,7 +267,7 @@
       - ' '
       - '   The installation can take up to 3 hours. Run the following command as root'
       - '   on {{ ansible_hostname }} to display the installation logs:'
-      - '   # tail -f $(cat {{ __sap_swpm_fact_tempdir_from_env }}/sapinst_instdir/.lastInstallationLocation)/sapinst.log'
+      - '   # tail -f {{ sap_swpm_sapinst_instdir_full }}/sapinst.log'
 
 ################
 # Set sapinst command

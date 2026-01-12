@@ -401,6 +401,7 @@ sap_swpm_sap_sidadm_password:
 sap_swpm_sapadm_uid:
 sap_swpm_sapsys_gid:
 sap_swpm_sidadm_uid:
+sap_swpm_sapinst_gid: 1001
 
 
 ########################################
