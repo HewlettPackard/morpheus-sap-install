@@ -99,7 +99,7 @@
   register: __sap_swpm_register_success_file
   failed_when: __sap_swpm_register_success_file.stat.exists == false
 
-# Equivalent to running: cat $(cat /tmp/sapinst_instdir/.lastInstallationLocation)/installationSuccesfullyFinished.dat
+# Equivalent to running: cat {{ sap_swpm_sapinst_instdir_full }}/installationSuccesfullyFinished.dat
 - name: SAP SWPM - Get success file
   ansible.builtin.command: "cat {{ __sap_swpm_register_last_install_path.stdout }}/installationSuccesfullyFinished.dat"
   register: __sap_swpm_register_success_file_contents
