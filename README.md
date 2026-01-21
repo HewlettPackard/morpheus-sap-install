@@ -17,7 +17,8 @@ Included roles cover range of tasks:
 Operating system:
 - Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
 
-Python: 3.11 or higher
+> **Managed Node Registration**<br>
+> Operating system needs to have access to required package repositories either directly or via subscription registration.
 
 Ansible: 9.9.x
 
@@ -36,6 +37,8 @@ Operating system:
 
 Python: 3.6 or higher
 
+- **Version Compatibility:** For a detailed mapping of supported Python versions and Ansible-Core lifecycles, refer to the official [Ansible-Core Support Matrix](https://docs.ansible.com/projects/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix).
+- **Control Node Permissions:** Ensure the user executing the playbooks has the necessary SSH keys and sudo privileges configured for the target environment.
 
 ## Installation Instructions
 
@@ -60,7 +63,6 @@ All included roles can be executed independently.
 | :--- | :--- |
 | [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_hana_install/) | Install SAP HANA via HDBLCM |
 | [sap_swpm](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_swpm) | Install SAP Software via SWPM |
-
 
 ## Testing
 This Ansible Collection was tested across different Operating Systems versions, SAP products and scenarios. You can find examples of some of them below.
