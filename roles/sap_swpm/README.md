@@ -89,6 +89,8 @@ It is also possible to use method 1 for creating the inifile and then replace or
 
 - The file `inifile.params` is then transferred to a temporary directory on the managed node, to be used by the sapinst process.
 
+- Check for a previous installation run and discard the existing logfile directory if a previous installation failed before the end of the parameter input phase. Create the installation log directory (customizable via sap_swpm_sapinst_instdir, assigned to group sapinst with optional group ID set via sap_swpm_sapinst_gid) to enable continuation of a failed installation after the input phase.
+
 ### SAP SWPM
 
 - Execute SWPM. This and the remaining steps can be skipped by setting the default of the parameter `sap_swpm_run_sapinst` to `false`.
@@ -809,4 +811,18 @@ Set owner for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR
 - _Default:_ `root`
 
 Set group ownership for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR files in `sap_swpm_swpm_path`.
+
+### sap_swpm_sapinst_instdir
+- _Type:_ `string`
+- _Default:_ `/tmp/sapinst_instdir`
+
+Set the installation log directory used by SWPM.
+
+### sap_swpm_sapinst_gid
+- _Type:_ `string`
+- _Default:_ `(undefined)`
+
+Set the group ID for the sapinst group. If not defined, the group is created with an auto-assigned ID.
+
+
 <!-- END Role Variables -->

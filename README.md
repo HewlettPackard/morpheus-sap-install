@@ -24,10 +24,12 @@ Ansible: 9.9.x
 Ansible-core: 2.16.x
 
 **NOTE: Ansible 10 and ansible-core 2.17.x are not supported, because of breaking changes requiring higher Python version on managed nodes.**
+**NOTE: Due to a security vulnerability CVE-2025-14010, it’s recommended to update ansible to ansible>=12.2.0 
 
 ### Managed Nodes
 Operating system:
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
+- SUSE Linux Enterprise for SAP 15.x
 
 **NOTE: Operating system needs to have access to required package repositories either directly or via subscription registration.**
 
@@ -62,9 +64,10 @@ This Ansible Collection was tested across different Operating Systems versions, 
 
 Operating systems:
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
+- SUSE Linux Enterprise for SAP 15.x
 
 SAP Products:
-- SAP S/4HANA AnyPremise (1809, 1909, 2020, 2021, 2022, 2023) with setup as Standard, Distributed or Restore System Copy
+- SAP S/4HANA AnyPremise (1809, 1909, 2020, 2021, 2022, 2023, 2025) with setup as Standard, Distributed or Restore System Copy
 - SAP BW/4HANA (2021, 2023) with setup as Standard, Distributed or Restore System Copy
 - SAP HANA 2.0 (SPS04+) with setup as Scale-Up
 
