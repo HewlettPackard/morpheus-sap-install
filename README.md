@@ -15,7 +15,7 @@ Included roles cover range of tasks:
 
 ### Control Nodes
 Operating system:
-- Any operating system with required Python and Ansible versions.
+- Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
 
 Python: 3.11 or higher
 
@@ -31,7 +31,7 @@ Operating system:
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
 - SUSE Linux Enterprise for SAP 15.x
 
-**NOTE: Operating system needs to have access to required package repositories either directly or via subscription registration.**
+**NOTE: If the Operating system is configured correctly in the VM template, it doesn't need to have access to required package repositories either directly or via subscription registration.**
 
 
 Python: 3.6 or higher
@@ -40,7 +40,10 @@ Python: 3.6 or higher
 ## Installation Instructions
 
 ### Installation
-For the use of the Ansible playbooks in HPE Morpheus Enterprise, a github repository can be directly integrated into the software.
+It is recommended to create a fork of this GitHub repository and integrate that fork into HPE Morpheus Enterprise. This allows you to customize the playbooks for your environment if necessary.
+The Morpheus_Import_Package.zip archive contains a Python script that imports Workflows and Layouts and their dependencies for automated SAP installations into HPE Morpheus Enterprise. The script also imports Tasks that execute the Ansible roles from this repository.
+
+A detailed description of how to setup HPE Morpheus Enterprise and how to customize the imported Workflows and Layouts is available in [HPE Reference Architecture for SAP automation with HPE Morpheus Enterprise Software on Predefined Configuration and VMware virtualization](https://www.hpe.com/psnow/doc/a50014106enw)
 
 ## Use Cases
 
