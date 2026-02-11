@@ -38,11 +38,11 @@ jobs:
 
       - name: Move the collection to the correct location - Move the collection
         working-directory: /home/runner/
-        run: mv /home/runner/work/community.sap_install/community.sap_install /home/runner/.ansible/collections/ansible_collections/community
+        run: mv /home/runner/work/morpheus-sap-install/morpheus-sap-install /home/runner/.ansible/collections/ansible_collections/community
 
       - name: Move the collection to the correct location - Rename the directory
         working-directory: /home/runner/
-        run: mv /home/runner/.ansible/collections/ansible_collections/community/community.sap_install /home/runner/.ansible/collections/ansible_collections/community/sap_install
+        run: mv /home/runner/.ansible/collections/ansible_collections/community/morpheus-sap-install /home/runner/.ansible/collections/ansible_collections/community/sap_install
 
       - name: Run ansible-lint
         working-directory: /home/runner/.ansible/collections/ansible_collections/community/sap_install
@@ -50,4 +50,4 @@ jobs:
 
       - name: Move the collection to its previous location
         working-directory: /home/runner/
-        run: mv /home/runner/.ansible/collections/ansible_collections/community/sap_install /home/runner/work/community.sap_install/community.sap_install
+        run: mv /home/runner/.ansible/collections/ansible_collections/community/sap_install /home/runner/work/morpheus-sap-install/morpheus-sap-install
