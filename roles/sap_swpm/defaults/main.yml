@@ -401,6 +401,7 @@ sap_swpm_sap_sidadm_password:
 sap_swpm_sapadm_uid:
 sap_swpm_sapsys_gid:
 sap_swpm_sidadm_uid:
+#sap_swpm_sapinst_gid:
 
 
 ########################################
@@ -462,3 +463,6 @@ sap_swpm_display_unattended_output: false
 
 # Set which Ansible Collection to use when calling sap_install roles.
 sap_swpm_sap_install_collection: 'community.sap_install'
+
+# Set the default sapinst log directory
+sap_swpm_sapinst_instdir: "/tmp/sapinst_instdir"

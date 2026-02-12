@@ -4,7 +4,7 @@
 ## Description
 
 This Ansible Collection executes various SAP Software installations and configuration tasks for various SAP solutions and deployment scenarios on supported Linux operating systems.
-This set of roles and playbooks was tested for the use in HPE Morpheus Enterprise.
+The roles and playbooks in this repository were tested for the use in HPE Morpheus Enterprise.
 The roles and playbooks from https://github.com/sap-linuxlab/community.sap_install were used and slightly modified. Only tested roles and playbooks are part of this repository.
 
 Included roles cover range of tasks:
@@ -15,7 +15,7 @@ Included roles cover range of tasks:
 
 ### Control Nodes
 Operating system:
-- Any operating system with required Python and Ansible versions.
+- Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
 
 Python: 3.11 or higher
 
@@ -24,12 +24,14 @@ Ansible: 9.9.x
 Ansible-core: 2.16.x
 
 **NOTE: Ansible 10 and ansible-core 2.17.x are not supported, because of breaking changes requiring higher Python version on managed nodes.**
+**NOTE: Due to a security vulnerability CVE-2025-14010, it’s recommended to update ansible to ansible>=12.2.0 
 
 ### Managed Nodes
 Operating system:
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
+- SUSE Linux Enterprise for SAP 15.x
 
-**NOTE: Operating system needs to have access to required package repositories either directly or via subscription registration.**
+**NOTE: If the Operating system is configured correctly in the VM template, it doesn't need to have access to required package repositories either directly or via subscription registration.**
 
 
 Python: 3.6 or higher
@@ -38,7 +40,10 @@ Python: 3.6 or higher
 ## Installation Instructions
 
 ### Installation
-For the use of the Ansible playbooks in HPE Morpheus Enterprise, a github repository can be directly integrated into the software.
+It is recommended to create a fork of this GitHub repository and integrate that fork into HPE Morpheus Enterprise. This allows you to customize the playbooks for your environment if necessary.
+The Morpheus_Import_Package.zip archive contains a Python script that imports Workflows and Layouts and their dependencies for automated SAP installations into HPE Morpheus Enterprise. The script also imports Tasks that execute the Ansible roles from this repository.
+
+A detailed description of how to setup HPE Morpheus Enterprise and how to customize the imported Workflows and Layouts is available in [HPE Reference Architecture for SAP automation with HPE Morpheus Enterprise Software on Predefined Configuration and VMware virtualization](https://www.hpe.com/psnow/doc/a50014106enw)
 
 ## Use Cases
 
@@ -46,15 +51,15 @@ For the use of the Ansible playbooks in HPE Morpheus Enterprise, a github reposi
 - Installation of SAP HANA
 - Installation of SAP S4HANA or other SAP products, including SAP system copy
 
-More deployment scenarios are available in [ansible.playbooks_for_sap](https://github.com/sap-linuxlab/ansible.playbooks_for_sap) repository. However, the integration was not tested with HPE Morpheus Enterprise.
+More deployment scenarios are available in [community.sap_install](https://github.com/sap-linuxlab/community.sap_install) repository. However, the integration was not tested with HPE Morpheus Enterprise.
 
 ### Ansible Roles
 All included roles can be executed independently.
 
 | Name | Summary |
 | :--- | :--- |
-| [sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/roles/sap_hana_install/) | Install SAP HANA via HDBLCM |
-| [sap_swpm](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/roles/sap_swpm) | Install SAP Software via SWPM |
+| [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_hana_install/) | Install SAP HANA via HDBLCM |
+| [sap_swpm](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/roles/sap_swpm) | Install SAP Software via SWPM |
 
 
 ## Testing
@@ -62,9 +67,10 @@ This Ansible Collection was tested across different Operating Systems versions, 
 
 Operating systems:
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
+- SUSE Linux Enterprise for SAP 15.x
 
 SAP Products:
-- SAP S/4HANA AnyPremise (1809, 1909, 2020, 2021, 2022, 2023) with setup as Standard, Distributed or Restore System Copy
+- SAP S/4HANA AnyPremise (1809, 1909, 2020, 2021, 2022, 2023, 2025) with setup as Standard, Distributed or Restore System Copy
 - SAP BW/4HANA (2021, 2023) with setup as Standard, Distributed or Restore System Copy
 - SAP HANA 2.0 (SPS04+) with setup as Scale-Up
 
@@ -84,8 +90,8 @@ You can report any issues with this set of playbooks and roles using the [Issues
 Please follow [Ansible Precedence guidelines](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable) on how to pass variables when using this collection.
 
 ### Getting Started
-More information on how to execute Ansible playbooks is in [Getting started guide](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/docs/getting_started/README.md).
+More information on how to execute Ansible playbooks is in [Getting started guide](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/docs/getting_started/README.md).
 
 
 ## License
-[Apache 2.0](https://github.hpe.com/sonja-thumm/morpheus.sap_install/blob/main/LICENSE) 
+[Apache 2.0](https://github.com/HewlettPackard/morpheus-sap-install/blob/main/LICENSE) 

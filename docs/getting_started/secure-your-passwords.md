@@ -90,6 +90,9 @@ ansible-vault edit file_containing_secrets.yml
 This file can be included into a playbook similar to any other file include.  
 The playbook will only be usable when the correct vault password is provided to `ansible-playbook` for the runtime, see above.
 
+## Use HPE Morpheus Enterprise encryption
+To use Morpheus Cypher password capabilities, refer to the [Morpheus Cypher documentation](https://support.hpe.com/hpesc/public/docDisplay?docId=sd00006453en_us&docLocale=en_US&page=GUID-25C0F475-27A2-4C0A-BF2B-76EE20F51F7A.html).
+
 ## More features and information
 
 Vault encryption can also be done through password-files, scripts or automation software which provides secure ways to manage vault credentials.

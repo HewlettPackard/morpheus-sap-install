@@ -43,7 +43,7 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
 
 <!-- BEGIN Execution Recommended -->
 ### Recommended
-Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
+Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
 <!-- END Execution Recommended -->
 
 ### Execution Flow
@@ -88,6 +88,8 @@ sap_swpm_inifile_parameters_dict:
 It is also possible to use method 1 for creating the inifile and then replace or set additional variables using method 2: Define both of the related parameters, `sap_swpm_inifile_sections_list` and `sap_swpm_inifile_parameters_dict`.
 
 - The file `inifile.params` is then transferred to a temporary directory on the managed node, to be used by the sapinst process.
+
+- Check for a previous installation run and discard the existing logfile directory if a previous installation failed before the end of the parameter input phase. Create the installation log directory (customizable via sap_swpm_sapinst_instdir, assigned to group sapinst with optional group ID set via sap_swpm_sapinst_gid) to enable continuation of a failed installation after the input phase.
 
 ### SAP SWPM
 
@@ -809,4 +811,18 @@ Set owner for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR
 - _Default:_ `root`
 
 Set group ownership for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR files in `sap_swpm_swpm_path`.
+
+### sap_swpm_sapinst_instdir
+- _Type:_ `string`
+- _Default:_ `/tmp/sapinst_instdir`
+
+Set the installation log directory used by SWPM.
+
+### sap_swpm_sapinst_gid
+- _Type:_ `string`
+- _Default:_ `(undefined)`
+
+Set the group ID for the sapinst group. If not defined, the group is created with an auto-assigned ID.
+
+
 <!-- END Role Variables -->

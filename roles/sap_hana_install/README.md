@@ -1,7 +1,7 @@
 <!-- BEGIN Title -->
 # sap_hana_install Ansible Role
 <!-- END Title -->
-![Ansible Lint for sap_hana_install](https://github.hpe.com/sonja-thumm/morpheus.sap_install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
+![Ansible Lint for sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
 
 ## Description
 <!-- BEGIN Description -->
@@ -20,7 +20,7 @@ Install required collections by `ansible-galaxy collection install -vv -r meta/c
 ## Prerequisites
 <!-- BEGIN Prerequisites -->
 Managed nodes:
-- Directory with SAP Installation media is present and `sap_install_media_detect_source_directory` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad).
+- Directory with SAP Installation media is present and `sap_install_media_detect_source_directory` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad). Please note, these playbooks are not tested for the use in HPE Morpheus Enterprise.
 - Ensure that servers are configured for SAP HANA. See [Recommended](#recommended) section.
 - Ensure that volumes and filesystems are configured correctly. See [Recommended](#recommended) section.
 
