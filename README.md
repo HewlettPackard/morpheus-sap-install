@@ -79,7 +79,6 @@ SAP Products:
 ## Contributing to the sap-linuxlab community playbooks
 You can find more information about ways you can contribute at [sap-linuxlab website](https://sap-linuxlab.github.io/initiative_contributions/).
 
-
 ## Support
 You can report any issues with this set of playbooks and roles using the [Issues] section.
 
