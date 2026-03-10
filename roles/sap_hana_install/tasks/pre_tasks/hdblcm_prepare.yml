@@ -49,6 +49,9 @@
           Preparation steps failed. Please see details of failed task above.
           Cleanup of temporary files was completed.
 
+- name: SAP HANA hdblcm prepare - Prepare SAR files
+  ansible.builtin.import_tasks: prepare_sarfiles.yml
+  tags: sap_hana_install_prepare_sarfiles
 
 - name: SAP HANA - Pre-Tasks - Remove status file '{{ sap_hana_install_software_extract_directory }}/__EXTRACTION_ONGOING__'
   ansible.builtin.file:

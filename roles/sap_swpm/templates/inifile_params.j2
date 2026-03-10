@@ -1070,6 +1070,17 @@ ERROR:FAIL: Variable 'sap_swpm_master_password', fallback for 'sap_swpm_db_sidad
 ERROR:      Inifile Parameter: 'HDB_Recovery_Dialogs.sidAdmPassword'
 {% endif %}
 {% endif %}
+HDB_Recovery_Dialogs.rootkeysBackupLocation = {{ sap_swpm_backup_location }}
+HDB_Recovery_Dialogs.rootkeysBackupName = {{ sap_hana_backup_rootkeys_filename }}
+{% if sap_hana_backup_rootkeys_password | string | trim | length > 0 %}
+HDB_Recovery_Dialogs.rootkeysBackupPassword = {{ sap_hana_backup_rootkeys_password }}
+{% else %}
+{% if sap_swpm_master_password | string | trim | length > 0 %}
+HDB_Recovery_Dialogs.rootkeysBackupPassword = {{ sap_swpm_master_password }}
+{% else %}
+ERROR:FAIL: Variable 'sap_swpm_master_password', fallback for 'sap_hana_backup_rootkeys_password', is empty!
+{% endif %}
+{% endif %}
 # HDB_Recovery_Dialogs.backupDestinationType = File
 # HDB_Recovery_Dialogs.licenseFile =
 # HDB_Recovery_Dialogs.skipExistenceCheck = false

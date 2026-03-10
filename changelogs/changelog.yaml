@@ -341,6 +341,16 @@ releases:
         - sap_*_preconfigure - Assert the presence of the IBM tools only if necessary (https://github.com/sap-linuxlab/community.sap_install/pull/1078)
         - sap_*_preconfigure - Define needs-restarting also for RHEL 10, assert mode (https://github.com/sap-linuxlab/community.sap_install/pull/1076)
         - sap_*_preconfigure - Define needs-restarting also for RHEL 10 (https://github.com/sap-linuxlab/community.sap_install/pull/1071)
+  1.6.2:
+    release_date: '2026-02-13'
+    changes:
+      release_summary: Modifications for HPE Morpheus Enterprise
+      bugfixes:
+        - sap_hana_install - include option to use mounted installation media setting sap_hana_set_file_permissions
+        - sap_hana_install - replace ansible asynchronous task
+        - sap_swpm - replace ansible asyncrhonous task
+        - sap_swpm - include option to resume a failed SAP installation after the parameter input phase.
+
   1.7.0:
     release_date: '2025-07-31'
     changes:

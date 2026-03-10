@@ -8,7 +8,13 @@
 
 - name: SAP HANA - Pre-Tasks - Set fact list of SAR files if 'sap_hana_install_sarfiles' is defined
   ansible.builtin.set_fact:
-    __sap_hana_install_fact_sarfiles: "{{ sap_hana_install_sarfiles | d([]) }}"
+    __sap_hana_install_fact_sarfiles: "{{ sap_hana_install_sarfiles }}"
+  when: sap_hana_install_sarfiles is defined
+
+- name: Display the resulting list of file names from variable
+  ansible.builtin.debug:
+    var: __sap_hana_install_fact_sarfiles
+  when: sap_hana_install_sarfiles is defined
 
 - name: SAP HANA - Pre-Tasks - Find all SAR files if 'sap_hana_install_sarfiles' is undefined
   when: sap_hana_install_sarfiles is not defined
@@ -26,6 +32,10 @@
       ansible.builtin.set_fact:
         __sap_hana_install_fact_sarfiles: "{{ __sap_hana_install_fact_sarfiles | d([]) + [item.path | basename] }}"
       loop: "{{ __sap_hana_install_register_find_sarfiles.files }}"
+
+    - name: Display the resulting list of file names after find
+      ansible.builtin.debug:
+        var: __sap_hana_install_fact_sarfiles
 
 - name: Copy SAR files to final destination if 'sap_hana_install_copy_sarfiles' is 'true'
   when: sap_hana_install_copy_sarfiles

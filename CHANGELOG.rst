@@ -21,6 +21,7 @@ Bugfixes
 - sap_ha_pacemaker_cluster - Add fence_aws for SLES 16 and remove Tech Debt (https://github.com/sap-linuxlab/community.sap_install/pull/1151)
 - sap_hana_install - Revert wrong conditional from PR#1138 (https://github.com/sap-linuxlab/community.sap_install/pull/1147)
 - sap_swpm - Sanitize conditions for 2.19 (https://github.com/sap-linuxlab/community.sap_install/pull/1159)
+- sap_hana_install - rename sap_hana_set_file_permissions to sap_hana_install_set_file_permissions
 
 v1.8.0
 ======
@@ -98,6 +99,16 @@ Bugfixes
 - sap_ha_pacemaker_cluster - Enhance handling of cluster properties and improve ASCS ERS post steps (https://github.com/sap-linuxlab/community.sap_install/pull/1084)
 - sap_hana_install - Enhance SAPCAR detection functionality and handling of multiple files (https://github.com/sap-linuxlab/community.sap_install/pull/1082)
 - sap_hana_preconfigure - Replace grub2-mkconfig for RHEL by grubby from RHEL 8 onward (https://github.com/sap-linuxlab/community.sap_install/pull/1083)
+
+v1.6.2
+=====
+Release Summary
+
+Some improvements for Integration into HPE Morpheus Enterprise
+- sap_hana_install - include option to use mounted installation media setting sap_hana_set_file_permissions
+- sap_hana_install - replace ansible asynchronous task
+- sap_swpm - replace ansible asyncrhonous task
+- sap_swpm - include option to resume a failed SAP installation after the parameter input phase.
 
 v1.6.1
 ======

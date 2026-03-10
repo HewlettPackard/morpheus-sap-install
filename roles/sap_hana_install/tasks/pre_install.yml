@@ -17,7 +17,6 @@
     - __sap_hana_install_configure_selinux
     - not __sap_hana_install_fact_is_installed
 
-
 # This task will run on existing system because we need to validate version from manifest file.
 - name: SAP HANA - Install - Pre-Tasks - Validate and prepare software directory
   ansible.builtin.include_tasks:

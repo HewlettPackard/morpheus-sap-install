@@ -1,64 +1,24 @@
 
 # Ansible Collection Playbooks
 
-The playbooks starting with `sample-` in this directory can be used as examples for your own playbooksi and cannot be called directly from the commandline.
-The other playbooks can be called directly with a prepared variable file or imported in your own playbooks or workflows.
-The playbooks can run against localhost, all hosts or defined group.
+The playbooks in this directory can be directly integrated into HPE Morpheus enterprise.
 
 ## Usage of playbooks
 
-### Prepare System for SAP HANA installation: `sap_hana_prepare_exec.yml`
+### Integrate repository into HPE Morpheus Enterprise
 
-This playbook runs against localhost and/or remote hosts.
-You need to define the variable `sap_hana_group`to run this playbook against a particular group of hosts which is defined in your inventory.
-If you do not define the parameter `sap_hana_group` the playbook will run against all hosts in the inventory unless limited with `-l hostname' or localhost if no inventory is defined.
+Clone or fork this repository to a personal repository. This provides the possibility to change default parameter settings.
 
-To run this playbook you need to prepare a variable file with a minimum viable set of variables.
+In the HPE Morpheus Enterprise software navigate to Library > Integrations and select + New Integration and select the integration type "ansible". Provide all necessary information to the personal repository.
+
+Several input parameter have to be created in HPE Morpheus Enterpise.
+Some parameter are set to default values. They are set either in the variables file that is integrated into a playbook or in the defaults/main.yml of a role.
+
+Input parameter are passed on in the HPE Morpheus Enterprise task of the respective playbook. 
+
 
 #### Example: 
 
-Create a parameter file `my_vars.yml` with similar content:
+For the SAP HANA installation playbook sap-hana-install.yml, the input parameter are passed on as extra variables:
 
-```[yaml]
-    # sap_playbook_parameter_confirm: false   # Set to true if you want to list parameters and confirm execution
-    sap_domain: my.sap.domain
-    sap_general_preconfigure_modify_etc_hosts: true
-    sap_general_preconfigure_update: true
-    sap_general_preconfigure_fail_if_reboot_required: false
-    sap_hana_preconfigure_update: true
-    sap_hana_preconfigure_fail_if_reboot_required: false
-    sap_hana_preconfigure_reboot_ok: true
-```
-
-Create the file `my_inventory` similar to:
-
-```[yaml]
-[my_hanas]
-hana1
-hana2
-```
-
-Now you can run the playbook with
-
-```[bash]
-ansible-playbook community.sap_install.sap_hana_preconfigure_exec.yml -i my_inventory -e @my_vars.yml -e sap_hana_group=my_hanas
-```
-
-When you call this playbook against a remote host make sure the user can connect and assume root without a password or pass the following parameters if necessary
-
-```[bash]
- -u <connection user>: User that establishes the ssh connection
- -k: asks for password or passphrase of the connection user, if required for ssh
- -K: asks for the privilege escalation password of the connection user to become root on the target host
-```
-
-You can also call the playbook inside another playbook with:
-
-```
-- name: Include HANA preparation from collection for group my_hanas
-  ansible.builtin.import_playbook: community.sap_install.sap_hana_prepare_exec.yml
-  vars:
-    sap_hana_group: my_hanas
-    # add other vars here, or define somewhere else
-```
-
+--user root --extra-vars '{"ansible_python_interpreter":"<%= customOptions.ansible_python_interpreter %>","sap_hana_install_master_password":"<%= customOptions.sap_hana_install_master_password %>","sap_hana_install_software_extract_directory":"<%= customOptions.sap_hana_install_software_extract_directory %>","sap_hana_install_software_directory":"<%= customOptions.sap_hana_install_software_extract_directory %>","sap_hana_install_sid":"<%= customOptions.sap_hana_install_sid %>","sap_hana_install_instance_number":"<%= customOptions.sap_hana_install_instance_number %>"}'

@@ -14,13 +14,11 @@ The Ansible role `sap_swpm` installs various SAP Systems installable by SAP Soft
 ## Prerequisites
 <!-- BEGIN Prerequisites -->
 Managed nodes:
-
-- Directory with SAP Installation media is present and `sap_swpm_software_path` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad).
-- Ensure that servers are configured for SAP Systems. See [Recommended](#recommended) section.
-- Ensure that volumes and filesystems are configured correctly. See [Recommended](#recommended) section.
+- Directory with SAP Installation media is present and `sap_swpm_software_path` updated.
+- Ensure that servers are configured for SAP Systems. 
+- Ensure that volumes and filesystems are configured correctly.
 
 ### Prepare SAP installation media
-Place a valid SAPCAR executable file in a directory specified by variable `sap_swpm_sapcar_path` (e.g. /software/sapcar). Example: `SAPCAR_1300-70007716.EXE`
 
 Place a valid SWPM SAR file in a directory specified by variable `sap_swpm_swpm_path` (e.g. /software/sap_swpm). Example: `SWPM20SP18_3-80003424.SAR`
 
@@ -36,8 +34,9 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
       - SAP Kernel DB Independent - `SAPEXE_*SAR`
       - SAP HANA Client           - `IMDB_CLIENT*SAR`
 
-Alternatively, you can place all the files mentioned above into a single directory and use the role [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect) to identify the required files<br>
-and set the role variables automatically so that the role `sap_swpm` has access to all the files needed for a successful installation of SAP System.
+
+Set the right values for the directories in the Options List of HPE Morpheus Enterprise.
+
 <!-- END Prerequisites -->
 
 ## Execution
@@ -46,14 +45,7 @@ and set the role variables automatically so that the role `sap_swpm` has access 
 
 <!-- BEGIN Execution Recommended -->
 ### Recommended
-It is recommended to execute this role together with other roles in this collection, in the following order:
-
-1. [sap_general_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_general_preconfigure)
-2. [sap_netweaver_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_netweaver_preconfigure)
-3. [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect)
-4. *`sap_swpm`*
-
-**NOTE:** For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
+Note: For most scenarios, a database like SAP HANA must be available. Use the role [sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/tree/main/roles/sap_hana_install) for installing the SAP HANA database.
 <!-- END Execution Recommended -->
 
 ### Execution Flow
@@ -65,8 +57,6 @@ It is recommended to execute this role together with other roles in this collect
     - The product id specified determines the installation type
         - standard installation
         - system restore
-        - generic product installation
-        - high availability installation
 
 - Get SAPCAR executable filename from `sap_swpm_sapcar_path`
 
@@ -105,6 +95,8 @@ sap_swpm_inifile_parameters_dict:
 
 - The file `inifile.params` is then transferred to a temporary directory on the managed node, to be used by the sapinst process.
 
+- Check for a previous installation run and discard the existing logfile directory if a previous installation failed before the end of the parameter input phase. Create the installation log directory (customizable via sap_swpm_sapinst_instdir, assigned to group sapinst with optional group ID set via sap_swpm_sapinst_gid) to enable continuation of a failed installation after the input phase.
+
 ### SAP SWPM
 
 - Execute SWPM. This and the remaining steps can be skipped by setting the default of the parameter `sap_swpm_run_sapinst` to `false`.
@@ -121,59 +113,10 @@ sap_swpm_inifile_parameters_dict:
 ### Example
 <!-- BEGIN Execution Example -->
 
-#### Playbook for installing a SAP ABAP ASCS instance in distributed system with [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect) role
-Example shows execution together with [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect) role, which sets required variables for `sap_swpm` role.
+#### Playbook for installing a SAP ABAP PAS in HPE Morpheus Enterprise
+Example shows the command line used for the task in HPE Morpheus Enterprise for the PAS installation. Input parameter are defined in HPE Morpheus Enterprise
 
-```yaml
----
-- name: Ansible Play for SAP ABAP ASCS installation in distributed system
-  hosts: nwas_ascs
-  become: true
-  any_errors_fatal: true
-  max_fail_percentage: 0
-  tasks:
-
-    - name: Execute Ansible Role sap_install_media_detect
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_install_media_detect
-      vars:
-        sap_install_media_detect_swpm: true
-        sap_install_media_detect_hostagent: true
-        sap_install_media_detect_igs: true
-        sap_install_media_detect_kernel: true
-        sap_install_media_detect_webdisp: false
-        sap_install_media_detect_source_directory: /software
-
-    - name: Execute Ansible Role sap_swpm
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_swpm
-      vars:
-        sap_swpm_sid: AE1
-        sap_swpm_virtual_hostname: ae1ascs
-        sap_swpm_ascs_instance_nr: "01"
-        sap_swpm_master_password: "Password@1"  # Do not use, this is example only!
-        sap_swpm_ddic_000_password: "Password@1"  # Do not use, this is example only!
-        sap_swpm_sapadm_uid: "3000"
-        sap_swpm_sapsys_gid: "3001"
-        sap_swpm_sidadm_uid: "3001"
-        sap_swpm_product_catalog_id: NW_ABAP_ASCS:NW750.HDB.ABAPHA
-        sap_swpm_inifile_sections_list:
-          - swpm_installation_media
-          - swpm_installation_media_swpm1
-          - credentials
-          - credentials_hana
-          - db_config_hana
-          - db_connection_nw_hana
-          - nw_config_other
-          - nw_config_central_services_abap
-          - nw_config_primary_application_server_instance
-          - nw_config_ports
-          - nw_config_host_agent
-          - sap_os_linux_user
-
-        sap_swpm_role_parameters_dict:
-          sap_swpm_install_saphostagent: 'true'
-```
+--user root --extra-vars '{"ansible_python_interpreter":"<%= customOptions.ansible_python_interpreter %>","sap_swpm_parallel_jobs_nr":"<%= customOptions.sap_swpm_parallel_jobs_nr %>","sap_swpm_master_password":"<%= customOptions.sap_swpm_master_password %>","sap_swpm_software_path":"<%= results.getSAPSWPMinput.sap_swpm_software_path %>","sap_swpm_product_catalog_id":"<%= results.getSAPSWPMinput.sap_swpm_product_catalog_id %>","sap_swpm_sid":"<%= customOptions.sap_swpm_sid %>","sap_swpm_ascs_instance_nr":"<%= customOptions.sap_swpm_ascs_instance_nr %>","sap_swpm_pas_instance_nr":"<%= customOptions.sap_swpm_pas_instance_nr %>","sap_swpm_sapinst_path":"<%= results.getSAPSWPMinput.sap_swpm_sapinst_path %>","sap_swpm_db_sid":"<%= results.getSAPHANAparameter.sap_swpm_db_sid %>","sap_swpm_db_instance_nr":"<%= results.getSAPHANAparameter.sap_swpm_db_instance_nr %>","sap_swpm_db_host":"<%= results.getSAPHANAparameter.sap_swpm_db_host %>","sap_swpm_db_system_password":"<%= customOptions.sap_hana_install_master_password %>"}'
 <!-- END Execution Example -->
 
 <!-- BEGIN Role Tags -->
@@ -187,17 +130,6 @@ With the following tags, the role can be called to perform certain activities on
 - tag `sap_swpm_setup_firewall`: Only perform the firewall preinstallation settings (but only if variable `sap_swpm_setup_firewall` is set to `true`).
 - tag `sap_swpm_update_etchosts`: Only update file `/etc/hosts` (but only if variable `sap_swpm_update_etchosts` is set to `true`).
 <!-- END Role Tags -->
-
-## Additional information
-<!-- BEGIN UDI -->
-### Up-To-Date Installation (UDI)
-The Software Update Manager can run on any host with an Application Server instance (e.g. NWAS ABAP PAS/AAS, NWAS JAVA CI/AAS) with correct permissions to access `/usr/sap/` and `/sapmnt/` directories.
-
-When using the Software Provisioning Manager (SWPM) with a Maintenance Planner Stack XML file to perform an "up-to-date installation" (UDI) - it will start the Software Update Manager (SUM) automatically at the end of the installation process.<br>
-This UDI feature applies only to SAP ABAP Platform / SAP NetWeaver, and must be performed from the Primary Application Server instance (i.e. NWAS ABAP PAS, or a OneHost installation).
-
-Furthermore, during SWPM variable selection the enabling of Transport Management System (TMS) is required, see SAP Note 2522253 - SWPM can not call SUM automatically when doing the up-to-date installation.
-<!-- END UDI -->
 
 ## License
 <!-- BEGIN License -->
@@ -566,6 +498,16 @@ Define prefix of SAP HANA Backup files.
 
 Define SAP HANA SYSTEM password from source database.
 
+### sap_hana_backup_rootkeys_filename
+- _Type:_ `string`
+
+Define the rootkey filename located in the backup location
+
+### sap_hana_backup_rootkeys_password
+- _Type:_ `string`
+
+Password of the System user of the source SAP HANA system
+
 
 ### Variables specific to SAP Web Dispatcher
 
@@ -822,4 +764,18 @@ Set owner for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR
 - _Default:_ `root`
 
 Set group ownership for all non-SAPCAR files in `sap_swpm_software_path` and for SWPM*.SAR files in `sap_swpm_swpm_path`.
+
+### sap_swpm_sapinst_instdir
+- _Type:_ `string`
+- _Default:_ `/tmp/sapinst_instdir`
+
+Set the installation log directory used by SWPM.
+
+### sap_swpm_sapinst_gid
+- _Type:_ `string`
+- _Default:_ `(undefined)`
+
+Set the group ID for the sapinst group. If not defined, the group is created with an auto-assigned ID.
+
+
 <!-- END Role Variables -->

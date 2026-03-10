@@ -1,7 +1,7 @@
 <!-- BEGIN Title -->
 # sap_hana_install Ansible Role
 <!-- END Title -->
-![Ansible Lint for sap_hana_install](https://github.com/sap-linuxlab/community.sap_install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
+![Ansible Lint for sap_hana_install](https://github.com/HewlettPackard/morpheus-sap-install/actions/workflows/ansible-lint-sap_hana_install.yml/badge.svg)
 
 ## Description
 <!-- BEGIN Description -->
@@ -20,8 +20,7 @@ Install required collections by `ansible-galaxy collection install -vv -r meta/c
 ## Prerequisites
 <!-- BEGIN Prerequisites -->
 Managed nodes:
-
-- Directory with SAP Installation media is present and `sap_install_media_detect_source_directory` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad).
+- Directory with SAP Installation media is present and `sap_install_media_detect_source_directory` updated. Download can be completed using [community.sap_launchpad](https://github.com/sap-linuxlab/community.sap_launchpad). Please note, these playbooks are not tested for the use in HPE Morpheus Enterprise.
 - Ensure that servers are configured for SAP HANA. See [Recommended](#recommended) section.
 - Ensure that volumes and filesystems are configured correctly. See [Recommended](#recommended) section.
   - SAP HANA Scale-Out requires shared filesystems:
@@ -80,10 +79,10 @@ sap_hana_install_sarfiles:
 
 ### Extracted SAP HANA Software Installation Files
 This role will detect if there is a file `hdblcm` already present in the directory specified by variable
-`sap_hana_install_software_extract_directory` or in any directory below. If If found, it will skip
+`sap_hana_install_software_extract_directory` or in any directory below. If found, it will skip
 the .SAR extraction phase and proceed with the installation.
 
-The default for `sap_hana_install_software_extract_directory` is `{{ sap_hana_install_software_directory }}/extracted` but it
+The default for HPE Morpheus Enterprise deployments for `sap_hana_install_software_extract_directory` is `{{ sap_hana_install_software_directory }}`, but it
 can be set to a different directory.
 
 If this role is executed on more than one host in parallel and the software extraction directory is shared among those hosts,
@@ -174,14 +173,6 @@ This Ansible Role can be executed in following scenarios:
 <!-- END Execution -->
 
 <!-- BEGIN Execution Recommended -->
-### Recommended
-It is recommended to execute this role together with other roles in this collection, in the following order:</br>
-
-1. [sap_general_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_general_preconfigure)
-2. [sap_hana_preconfigure](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_hana_preconfigure)
-3. [sap_install_media_detect](https://github.com/sap-linuxlab/community.sap_install/tree/main/roles/sap_install_media_detect)
-4. *`sap_hana_install`*
-<!-- END Execution Recommended -->
 
 <!-- BEGIN Execution Flow -->
 ### Execution Flow
@@ -228,7 +219,7 @@ Steps:
 2. Gather list of all Instance profiles in `/hana/shared/<SID>/profile/`.
 3. Gather list of all directories in `/usr/sap/<SID>/HDB<Instance Number>/`.
 4. If the existing instance profile or directory was found in hosts list, create separate list without them.
-    - This list of the `new hosts` is used for one-time tasks. 
+   - This list of the `new hosts` is used for one-time tasks.
 
 
 #### Pre-Tasks for Installation
@@ -355,42 +346,14 @@ Installs SAP HANA on `host0` and other hosts listed in `sap_hana_install_addhost
 **NOTE:** Requires working SSH communication between hosts.
 ```yaml
 ---
-- name: Ansible Play for SAP HANA installation - Scale-out
-  hosts: host0, host1, host2, host3
+- name: Ansible Play for executing SAP HANA installation to all hosts in Ansible Inventory
+  hosts: all
   become: true
-  tasks:
-    - name: Execute Ansible Role sap_hana_install
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_hana_install
-      vars:
-        sap_hana_install_software_directory: /software/hana
-        sap_hana_install_master_password: 'My SAP HANA Master Password'
-        sap_hana_install_root_password: 'My root password'
-        sap_hana_install_addhosts: 'host1:role=worker,host2:role=worker:group=g02,host3:role=standby:group=g02'
-        sap_hana_install_sid: 'H01'
-        sap_hana_install_instance_nr: '00'
-```
-
-#### Example playbook for adding additional nodes to an existing SAP HANA installation
-Installs SAP HANA on `host1` and `host2`, while running on host `host0` where existing SAP HANA is installed.</br>
-**NOTE:** Requires working SSH communication between hosts.
-```yaml
----
-- name: Ansible Play for SAP HANA installation - Add hosts
-  hosts: host0, host1
-  become: true
-  tasks:
-    - name: Execute Ansible Role sap_hana_install
-      ansible.builtin.include_role:
-        name: community.sap_install.sap_hana_install
-      vars:
-        sap_hana_install_software_directory: /software/hana
-        sap_hana_install_new_system: false
-        sap_hana_install_addhosts: 'host1,host2'
-        sap_hana_install_master_password: 'My SAP HANA Master Password'
-        sap_hana_install_sapadm_password: 'My sapadm password'
-        sap_hana_install_sid: 'H01'
-        sap_hana_install_instance_nr: '00'
+  pre_tasks:
+    - name: Include variables
+      ansible.builtin.include_vars: ./vars/variables-sap-hana-install.yml
+  roles:
+    - { role: ../roles/sap_hana_install }
 ```
 <!-- END Execution Example -->
 
@@ -536,6 +499,13 @@ The role can be configured to also set the required firewall ports for SAP HANA.
 The firewall ports are defined in a variable which is compatible with the variable structure used by Linux System Role `firewall`.</br>
 The firewall ports for SAP HANA are defined in member `port` of the first field of variable `sap_hana_install_firewall` (`sap_hana_install_firewall[0].port`), see file `defaults/main.yml`.</br>
 If the member `state` is set to `enabled`, the ports will be enabled. If the member `state` is set to `disabled`, the ports will be disabled, which might be useful for testing.</br>
+
+#### sap_hana_install_set_file_permissions
+- _Type:_ `bool`
+- _Default:_ `true`
+
+Set to `false` to not change the owner, group, and permissions of the files in `sap_hana_install_software_extract_directory`.
+
 
 Certain parameters have identical meanings, for supporting different naming schemes in playbooks and inventories.</br>
 You can find those in the task `Rename some variables used by hdblcm configfile` of the file `tasks/main.yml`.</br>
