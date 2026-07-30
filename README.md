@@ -8,19 +8,19 @@ The roles and playbooks in this repository were tested for the use in HPE Morphe
 The roles and playbooks from https://github.com/sap-linuxlab/community.sap_install were used and slightly modified. Only tested roles and playbooks are part of this repository.
 
 Included roles cover range of tasks:
-- Installation of SAP Database
-- Installation of SAP Products, like SAP S4HANA and SAP BW4HANA.
+
+- Installation of SAP HANA Database
+- Installation of SAP Products, like SAP S4HANA, SAP BW4HANA and others. Only SAP S/4HANA and SAP BW/4HANA have been tested for integration into HPE Morpheus Enterprise.
+
 
 ## Requirements
-
 ### Control Nodes
 Operating system:
 - Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
 
 > **Managed Node Registration**<br>
 > Operating system needs to have access to required package repositories either directly or via subscription registration.
-
-Ansible: 9.9.x
+> **Managed Node Registration**<br>
 
 Ansible-core: 2.16.x
 
@@ -36,6 +36,9 @@ Operating system:
 
 
 Python: 3.6 or higher
+> Operating system do not need to have access to required package repositories or subscription registration at provisioning time, as the VM template being used should contain all required packages.
+ 
+**Additional notes:**
 
 - **Version Compatibility:** For a detailed mapping of supported Python versions and Ansible-Core lifecycles, refer to the official [Ansible-Core Support Matrix](https://docs.ansible.com/projects/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix).
 - **Control Node Permissions:** Ensure the user executing the playbooks has the necessary SSH keys and sudo privileges configured for the target environment.
@@ -68,18 +71,8 @@ All included roles can be executed independently.
 This Ansible Collection was tested across different Operating Systems versions, SAP products and scenarios. You can find examples of some of them below.
 
 Operating systems:
-<<<<<<< HEAD
 - Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
 - SUSE Linux Enterprise for SAP 15.x
-=======
-
-- Red Hat Enterprise Linux for SAP Solutions 8.x, 9.x and 10.x
-- SUSE Linux Enterprise Server for SAP applications 15 SP5, 15 SP6, 15 SP7 and 16.0
-
-Deployment scenarios:
-
-- All scenarios included in [ansible.playbooks_for_sap](https://github.com/sap-linuxlab/ansible.playbooks_for_sap) repository
->>>>>>> e6f5d07e (update correct sort order of OS names)
 
 SAP Products:
 - SAP S/4HANA AnyPremise (1809, 1909, 2020, 2021, 2022, 2023, 2025) with setup as Standard, Distributed or Restore System Copy
