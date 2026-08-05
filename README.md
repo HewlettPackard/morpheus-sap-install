@@ -12,31 +12,30 @@ Included roles cover range of tasks:
 - Installation of SAP HANA Database
 - Installation of SAP Products, like SAP S4HANA, SAP BW4HANA and others. Only SAP S/4HANA and SAP BW/4HANA have been tested for integration into HPE Morpheus Enterprise.
 
-
 ## Requirements
 ### Control Nodes
 Operating system:
 - Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
 
 > **Managed Node Registration**<br>
-> Operating system needs to have access to required package repositories either directly or via subscription registration.
+> Operating system do not need to have access to required package repositories or subscription registration at provisioning time, as the VM template being used should contain all required packages.
 > **Managed Node Registration**<br>
 
-Ansible-core: 2.16.x
 
-**NOTE: Ansible 10 and ansible-core 2.17.x are not supported, because of breaking changes requiring higher Python version on managed nodes.**
-**NOTE: Due to a security vulnerability CVE-2025-14010, it’s recommended to update ansible to ansible>=12.2.0 
-
-### Managed Nodes
+## Requirements
+### Control Nodes
 Operating system:
-- Red Hat Enterprise Linux for SAP Solutions 8.x 9.x (RHEL4SAP)
-- SUSE Linux Enterprise for SAP 15.x
+Any operating system running HPE Morpheus Enterprise can be used.
+SUSE Linux Enterprise Server for SAP applications 15 SP7 has been tested in HPE Morpheus Enterprise. Other versions could be used as well.
 
-**NOTE: If the Operating system is configured correctly in the VM template, it doesn't need to have access to required package repositories either directly or via subscription registration.**
-
+| Component | Control Node | Managed Node |
+| --- | --- | --- |
+| Operating System | Any OS | Red Hat Enterprise Linux for SAP Solutions 8.x, 9.x <br>SUSE Linux Enterprise Server for SAP applications 15 SP5, 15 SP6, 15 SP7 and 16.0 |
+| Python | 3.11 or higher | 3.9 or higher |
+| Ansible-Core | 2.18 or higher | N/A |
+| Ansible | 12 or higher | N/A |
 
 Python: 3.6 or higher
-> Operating system do not need to have access to required package repositories or subscription registration at provisioning time, as the VM template being used should contain all required packages.
  
 **Additional notes:**
 

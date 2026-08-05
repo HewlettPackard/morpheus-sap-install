@@ -36,6 +36,8 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
 
 Set the right values for the directories in the Options List of HPE Morpheus Enterprise.
 
+Set the right values for the directories in the Options List of HPE Morpheus Enterprise.
+
 <!-- END Prerequisites -->
 
 ## Execution
