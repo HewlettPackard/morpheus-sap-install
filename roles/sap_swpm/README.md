@@ -34,7 +34,6 @@ Place the following files in a directory specified by variable `sap_swpm_softwar
       - SAP Kernel DB Independent - `SAPEXE_*SAR`
       - SAP HANA Client           - `IMDB_CLIENT*SAR`
 
-Set the right values for the directories in the Options List of HPE Morpheus Enterprise.
 
 Set the right values for the directories in the Options List of HPE Morpheus Enterprise.
 

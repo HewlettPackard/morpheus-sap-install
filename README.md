@@ -12,15 +12,6 @@ Included roles cover range of tasks:
 - Installation of SAP HANA Database
 - Installation of SAP Products, like SAP S4HANA, SAP BW4HANA and others. Only SAP S/4HANA and SAP BW/4HANA have been tested for integration into HPE Morpheus Enterprise.
 
-## Requirements
-### Control Nodes
-Operating system:
-- Any operating system running HPE Morpheus Enterprise with required Python and Ansible versions.
-
-> **Managed Node Registration**<br>
-> Operating system do not need to have access to required package repositories or subscription registration at provisioning time, as the VM template being used should contain all required packages.
-> **Managed Node Registration**<br>
-
 
 ## Requirements
 ### Control Nodes
@@ -35,7 +26,9 @@ SUSE Linux Enterprise Server for SAP applications 15 SP7 has been tested in HPE 
 | Ansible-Core | 2.18 or higher | N/A |
 | Ansible | 12 or higher | N/A |
 
-Python: 3.6 or higher
+> **Managed Node Registration**<br>
+
+> Operating system do not need to have access to required package repositories or subscription registration at provisioning time, as the VM template being used should contain all required packages.
  
 **Additional notes:**
 
